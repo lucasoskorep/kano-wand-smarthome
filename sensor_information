@@ -1,0 +1,93 @@
+<bleak.backends.service.BleakGATTServiceCollection object at 0x00000230AA342F08>
+00001800-0000-1000-8000-00805f9b34fb: Generic Access Profile
+
+00002a00-0000-1000-8000-00805f9b34fb:
+['read', 'write']
+
+00002a01-0000-1000-8000-00805f9b34fb:
+['read']
+
+00002a04-0000-1000-8000-00805f9b34fb:
+['read']
+
+00002aa6-0000-1000-8000-00805f9b34fb:
+['read']
+Generic Access Profile
+00001801-0000-1000-8000-00805f9b34fb: Generic Attribute Profile
+
+00002a05-0000-1000-8000-00805f9b34fb:
+['indicate']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 13)
+Generic Attribute Profile
+64a70010-f691-4b93-a6f4-0968f5b648f8: Unknown
+
+64a7000b-f691-4b93-a6f4-0968f5b648f8:
+['read']
+
+64a70013-f691-4b93-a6f4-0968f5b648f8:
+['read']
+
+64a70001-f691-4b93-a6f4-0968f5b648f8:
+['read']
+Unknown
+64a70012-f691-4b93-a6f4-0968f5b648f8: Unknown
+
+64a70007-f691-4b93-a6f4-0968f5b648f8: Battery.
+['read', 'notify']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 24)
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 25)
+
+64a70008-f691-4b93-a6f4-0968f5b648f8: Vibration motor.
+['read', 'write']
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 28)
+
+64a70009-f691-4b93-a6f4-0968f5b648f8: Led control.
+['read', 'write']
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 31)
+
+64a7000d-f691-4b93-a6f4-0968f5b648f8: User button.
+['read', 'notify']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 34)
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 35)
+
+64a7000f-f691-4b93-a6f4-0968f5b648f8: Keep alive.
+['write']
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 38)
+Unknown
+64a70011-f691-4b93-a6f4-0968f5b648f8: Unknown
+
+64a70002-f691-4b93-a6f4-0968f5b648f8: Keep alive.
+['notify']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 42)
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 43)
+
+64a70004-f691-4b93-a6f4-0968f5b648f8: Rst quaternions.
+['write']
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 46)
+
+64a7000a-f691-4b93-a6f4-0968f5b648f8: Raw 9-axis.
+['notify']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 49)
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 50)
+
+64a7000c-f691-4b93-a6f4-0968f5b648f8: Linear Acc.
+['notify']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 53)
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 54)
+
+64a70014-f691-4b93-a6f4-0968f5b648f8: Temperature.
+['notify']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 57)
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 58)
+
+64a70021-f691-4b93-a6f4-0968f5b648f8: Magnetometer calibration.
+['write', 'notify']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 61)
+00002901-0000-1000-8000-00805f9b34fb: (Handle: 62)
+Unknown
+0000fe59-0000-1000-8000-00805f9b34fb: Nordic Semiconductor ASA
+
+8ec90003-f315-4f60-9fb8-838830daea50:
+['write', 'indicate']
+00002902-0000-1000-8000-00805f9b34fb: (Handle: 66)
+Nordic Semiconductor ASA
