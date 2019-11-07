@@ -20,6 +20,8 @@ ACCELEROMETER = 3
 BATTERY = 4
 TEMPERATURE = 5
 
+INT_DECODER =
+
 CHARACTERISTIC_UUIDS = {
     # ("64a7000d-f691-4b93-a6f4-0968f5b648f8"):BUTTON,#Button
     # ("64a7000a-f691-4b93-a6f4-0968f5b648f8"):GYROSCOPE,#9 axis
@@ -60,18 +62,10 @@ def notification_handler(sender, data):
         print(f"BUTTON PRESSED {data}")
         decode_button(data)
     elif sender == GYROSCOPE:
-        # print(f"GYRO CHANGED - {data}")
         print(BitArray(data).bin[:1])
     elif sender == ACCELEROMETER:
-        # print(f"ACCEL CHANGED - {data}")
-        # print(BitArray(data).bin[:1])
-        # print(struct.unpack("h",data[:2]))
         s = Struct("h")
         print([x for x in s.iter_unpack(data)])
-        # print(struct.unpack("e",data[:2]))
-        # print(struct.unpack("f", data[:4]))
-
-        # decode_accelerometer(data)
     elif sender == BATTERY:
         decode_battery(data)
     elif sender == TEMPERATURE:
@@ -108,7 +102,6 @@ async def run(address, loop, debug=False):
 
 if __name__ == "__main__":
     import os
-
     os.environ["PYTHONASYNCIODEBUG"] = str(1)
     address = (
         device_address  # <--- Change to your device's address here if you are using Windows or Linux
