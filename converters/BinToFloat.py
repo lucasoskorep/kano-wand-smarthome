@@ -8,7 +8,6 @@ def chunker(seq, size):
 class BinToFloat(object):
 
     def __init__(self, exponent=8, mantissa=23):
-        # self.signed = signed
         self.signed = True
         self.exponent = exponent
         self.mantissa = mantissa
@@ -20,12 +19,6 @@ class BinToFloat(object):
         ordered_bytes = []
         for group in reversed(chunked_bytes) if reverse_marshalling else chunked_bytes:
             ordered_bytes.extend(group)
-        # ordered_bytes = [x for x in reversed(ordered_bytes)]
-        # print(
-        #     "".join(["1" if x else "0" for x in ordered_bytes[0:1]]),
-        #     "".join(["1" if x else "0" for x in ordered_bytes[1:1+self.exponent]]),
-        #     "".join(["1" if x else "0" for x in ordered_bytes[1+self.exponent:1+self.exponent+self.mantissa]])
-        # )
         mant = [x for x in reversed(ordered_bytes[:self.mantissa])]
         exp = ordered_bytes[self.mantissa:self.mantissa + self.exponent]
         sign = ordered_bytes[self.mantissa + self.exponent] if self.signed else True
@@ -41,8 +34,6 @@ class BinToFloat(object):
             total_val += digit_val if i else 0
             digit_val *= 2
         tot = (2 ** (self.exponent-1))-1
-        # print(tot)
-        # print(total_val)
         return total_val - (tot)
 
     def convert_mantissa(self, mant):

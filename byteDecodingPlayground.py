@@ -54,14 +54,12 @@ def float_to_bin(num):
 
 def convert_row_to_bytes(row):
     row = b"".join([struct.pack("h", x) for x in row])
-    # b2f = BinToFloat(15, 32)
     b2i = BinToInt(48)
-    print([b2i.process(x, True) for x in chunker(row, 6)])
+    converted = [b2i.process(x, True)/10**14 for x in chunker(row, 6)]
+    print(converted,sum(converted))
 
 
 data = pd.read_csv("accelerometer.data")
-print(data)
-
 # test_bin_float_converstion()
 # test_bin_int_converstion()
 

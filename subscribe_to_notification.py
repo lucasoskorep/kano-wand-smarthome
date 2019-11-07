@@ -12,15 +12,15 @@ import struct
 
 from bleak import BleakClient
 from bleak import _logger as logger
-from bitstring import BitArray
-from struct import Struct
+from converters import BinToInt
+
 BUTTON = 1
 GYROSCOPE = 2
 ACCELEROMETER = 3
 BATTERY = 4
 TEMPERATURE = 5
 
-INT_DECODER =
+INT_DECODER = BinToInt(48)
 
 CHARACTERISTIC_UUIDS = {
     # ("64a7000d-f691-4b93-a6f4-0968f5b648f8"):BUTTON,#Button
@@ -28,21 +28,30 @@ CHARACTERISTIC_UUIDS = {
     ("64a7000c-f691-4b93-a6f4-0968f5b648f8"): ACCELEROMETER,  # Accel
     # ("64a70007-f691-4b93-a6f4-0968f5b648f8"):BATTERY,
     # ("64a70014-f691-4b93-a6f4-0968f5b648f8"):TEMPERATURE
-# Accel
 }  # <--- Change to the characteristic you want to enable notifications from.
+
+# TODO: RUMBLE
+# TODO: RGB
+# TODO: MAGNETOMETER??
+#
+
 
 # device_address = "e3:ae:cd:af:28:e2"
 device_address = "D8:9B:12:D1:08:80"
+
+def chunker(seq, size):
+    return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
 def decode_button(data):
     print(data)
     print(int.from_bytes(data, byteorder='big'))
 
+def decode_gyroscope(data):
+    decode_accelerometer(data)
+
 def decode_accelerometer(data):
-    # print(data)
-    # print(len(data))
-    print([x for x in data])
-    print(int.from_bytes())
+    converted = [INT_DECODER.process(x, True)/10**14 for x in chunker(data, 6)]
+    print(converted,sum(converted))
 
 def decode_battery(data):
     print(len(data))
@@ -57,15 +66,14 @@ def decode_temp(data):
 
 def notification_handler(sender, data):
     """Simple notification handler which prints the data received."""
+    #TODO: Convert to a dictionary and a single decode command
     sender = CHARACTERISTIC_UUIDS[sender]
     if sender == BUTTON:
-        print(f"BUTTON PRESSED {data}")
         decode_button(data)
     elif sender == GYROSCOPE:
-        print(BitArray(data).bin[:1])
+        decode_gyroscope(data)
     elif sender == ACCELEROMETER:
-        s = Struct("h")
-        print([x for x in s.iter_unpack(data)])
+        decode_accelerometer(data)
     elif sender == BATTERY:
         decode_battery(data)
     elif sender == TEMPERATURE:
@@ -96,7 +104,9 @@ async def run(address, loop, debug=False):
         x = await client.is_connected()
         logger.info("Connected: {0}".format(x))
         await start_notify(client)
+
         await asyncio.sleep(60.0, loop=loop)
+
         await stop_notify(client)
 
 
