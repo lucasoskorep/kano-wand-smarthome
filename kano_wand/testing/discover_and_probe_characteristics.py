@@ -1,20 +1,20 @@
 import asyncio
-from bleak import discover
+from bleak import discover, BleakClient
 from pprint import pprint
+
 
 async def run():
     devices = await discover()
     for d in devices:
         print(d)
 
+
 loop = asyncio.get_event_loop()
 loop.run_until_complete(run())
 
-import asyncio
-from bleak import BleakClient
-
 address = "D8:9B:12:D1:08:80"
 MODEL_NBR_UUID = "64a7000f-f691-4b93-a6f4-0968f5b648f8"
+
 
 async def run(address, loop):
     async with BleakClient(address, loop=loop) as client:
