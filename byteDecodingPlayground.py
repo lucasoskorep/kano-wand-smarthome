@@ -60,10 +60,10 @@ def convert_row_to_bytes(row):
 
 
 data = pd.read_csv("accelerometer.data")
-# test_bin_float_converstion()
-# test_bin_int_converstion()
-
 for index, row in data.iterrows():
     convert_row_to_bytes(row)
 
 
+
+test_bin_float_converstion()
+test_bin_int_converstion()
