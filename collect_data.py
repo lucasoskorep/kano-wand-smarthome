@@ -2,6 +2,7 @@
 import asyncio
 import json
 import platform
+from kano_wand.ble_client import KanoBLEClient
 
 """
 This is used for reading and decoding values from t he Kano Harry Potter Coding Wand
@@ -10,7 +11,7 @@ This is used for reading and decoding values from t he Kano Harry Potter Coding 
 - Wand seems to send smaller single dimensional data in 16bit unsigned integers 
 """
 
-SPELLS = json.load("spells.json")
+# SPELLS = json.load("spells.json")
 CURR_SPELL = 0
 
 # TODO: RUMBLE
@@ -29,5 +30,11 @@ if __name__ == "__main__":
         if platform.system() != "Darwin"
         else "243E23AE-4A99-406C-B317-18F1BD7B4CBE"  # <--- Change to your device's address here if you are using macOS
     )
+
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(run(address, loop, True))
+
+    kble = KanoBLEClient(address, loop)
+
+    loop.run_until_complete(kble.connect_and_read(True))
+
+

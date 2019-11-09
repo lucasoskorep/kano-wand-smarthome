@@ -1,21 +1,24 @@
 import logging
-import struct
 
 from converters import BinToInt, BinToFloat
-from .sensor_tracker import *
+from .wand_sensors import *
 from bleak import BleakClient
 from bleak import _logger as logger
-from .utils import *
+from .wand_utils import *
+from .sensor_decoders import wand_decoder
+
 
 class KanoBLEClient(object):
-    def __init__(self, wand_address, spells=None):
+    def __init__(self, wand_address, loop, spells=None):
         self.wand_address = wand_address
         self.int_decoder = BinToInt(48)
         self.float_decoder = BinToFloat(16, 31)
         self.client = None
+        self.decoder = wand_decoder()
+        self.wand_sensors = WandSensors(self.sensor_update_handler)
+        self.loop = loop
 
-
-    async def connect(self, loop, debug=False):
+    async def connect_and_read(self, debug=False):
         if debug:
             import sys
             l = logging.getLogger("asyncio")
@@ -25,40 +28,32 @@ class KanoBLEClient(object):
             l.addHandler(h)
             logger.addHandler(h)
 
-        async with BleakClient(self.wand_address, loop=loop) as client:
+        async with BleakClient(self.wand_address, loop=self.loop) as client:
             self.client = client
             x = await client.is_connected()
             logger.info("Connected: {0}".format(x))
-
-    async def start_recieving_data(self):
-        await start_notify(self.client)
+            await start_notify(self.client, self.sensor_handling)
 
 
     async def stop_recieving_data(self):
         await stop_notify(self.client)
 
 
+    def sensor_update_handler(self, sensors):
+        print(sensors)
+
     def sensor_handling(self, sender, data):
         """Simple notification handler which prints the data received."""
-        # TODO: Convert to a dictionary and a single decode command
         sender = CHARACTERISTIC_UUIDS[sender]
         if sender == BUTTON:
-            self.decode_button(data)
+            self.wand_sensors.set_button(self.decoder.decode_button(data))
         elif sender == NINE_AXIS:
-            #TODO: refactor the gyro to be local to the sensors file only
-            gyro = Gyro()
-            gyro.x, gyro.y, gyro.z = self.decode_nine_axis(data)
-            sensors.set_gyro(gyro)
-            sensors.append_to_dataframe()
+            self.wand_sensors.set_gyro(*self.decoder.decode_nine_axis(data))
         elif sender == ACCELEROMETER:
-            accel = Accel()
-            accel.x, accel.y, accel.z = self.decode_nine_axis(data)
-            sensors.set_accel(accel)
-            sensors.append_to_dataframe()
+            self.wand_sensors.set_accel(*self.decoder.decode_nine_axis(data))
         elif sender == BATTERY:
-            self.decode_battery(data)
+            self.decoder.decode_battery(data)
         elif sender == TEMPERATURE:
-            self.decode_temp(data)
+            self.wand_sensors.set_temp(self.decoder.decode_temp(data))
         elif sender == MAGNETOMETER:
-            self.decode_magnet(data)
-
+            self.wand_sensors.set_magneto(self.decoder.decode_magnet(data))

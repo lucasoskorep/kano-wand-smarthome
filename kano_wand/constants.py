@@ -11,5 +11,5 @@ CHARACTERISTIC_UUIDS = {
     ("64a7000c-f691-4b93-a6f4-0968f5b648f8"): ACCELEROMETER,  # Accel
     ("64a70007-f691-4b93-a6f4-0968f5b648f8"): BATTERY,
     ("64a70014-f691-4b93-a6f4-0968f5b648f8"): TEMPERATURE,
-    ("64a70021-f691-4b93-a6f4-0968f5b648f8"):MAGNETOMETER
+    ("64a70021-f691-4b93-a6f4-0968f5b648f8"): MAGNETOMETER
 }  # <--- Change to the characteristic you want to enable notifications from.
